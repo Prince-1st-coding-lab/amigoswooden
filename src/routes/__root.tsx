@@ -77,19 +77,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Amigos Wooden Vases — Handcrafted Decor, Kigali" },
-      {
-        name: "description",
-        content:
-          "Hand-turned wooden vases and home decor made in Gakinjiro, Kigali. Open 24 hours. Call +250 789 450 358.",
-      },
       { name: "author", content: "Amigos Wooden Vases" },
-      { property: "og:title", content: "Amigos Wooden Vases — Handcrafted Decor, Kigali" },
-      {
-        property: "og:description",
-        content:
-          "Hand-turned wooden vases and home decor made in Gakinjiro, Kigali, Rwanda.",
-      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -104,7 +92,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Karla:wght@300;400;500;600&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
     ],
   }),
 
