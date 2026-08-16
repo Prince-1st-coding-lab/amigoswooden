@@ -18,6 +18,9 @@ import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as DesignsIndexRouteImport } from './routes/designs.index'
 import { Route as DesignsSlugRouteImport } from './routes/designs.$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminGalleryRouteImport } from './routes/_authenticated/admin.gallery'
+import { Route as AuthenticatedAdminProductsIdRouteImport } from './routes/_authenticated/admin.products.$id'
+import { Route as AuthenticatedAdminProductsNewRouteImport } from './routes/_authenticated/admin.products.new'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -63,6 +66,24 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminGalleryRoute =
+  AuthenticatedAdminGalleryRouteImport.update({
+    id: '/admin/gallery',
+    path: '/admin/gallery',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminProductsIdRoute =
+  AuthenticatedAdminProductsIdRouteImport.update({
+    id: '/admin/products/$id',
+    path: '/admin/products/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminProductsNewRoute =
+  AuthenticatedAdminProductsNewRouteImport.update({
+    id: '/admin/products/new',
+    path: '/admin/products/new',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -72,7 +93,10 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof GalleryRoute
   '/designs/$slug': typeof DesignsSlugRoute
   '/designs/': typeof DesignsIndexRoute
+  '/admin/gallery': typeof AuthenticatedAdminGalleryRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/admin/products/$id': typeof AuthenticatedAdminProductsIdRoute
+  '/admin/products/new': typeof AuthenticatedAdminProductsNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -82,7 +106,10 @@ export interface FileRoutesByTo {
   '/gallery': typeof GalleryRoute
   '/designs/$slug': typeof DesignsSlugRoute
   '/designs': typeof DesignsIndexRoute
+  '/admin/gallery': typeof AuthenticatedAdminGalleryRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/admin/products/$id': typeof AuthenticatedAdminProductsIdRoute
+  '/admin/products/new': typeof AuthenticatedAdminProductsNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -94,7 +121,10 @@ export interface FileRoutesById {
   '/gallery': typeof GalleryRoute
   '/designs/$slug': typeof DesignsSlugRoute
   '/designs/': typeof DesignsIndexRoute
+  '/_authenticated/admin/gallery': typeof AuthenticatedAdminGalleryRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/admin/products/$id': typeof AuthenticatedAdminProductsIdRoute
+  '/_authenticated/admin/products/new': typeof AuthenticatedAdminProductsNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -106,7 +136,10 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/designs/$slug'
     | '/designs/'
+    | '/admin/gallery'
     | '/admin/'
+    | '/admin/products/$id'
+    | '/admin/products/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -116,7 +149,10 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/designs/$slug'
     | '/designs'
+    | '/admin/gallery'
     | '/admin'
+    | '/admin/products/$id'
+    | '/admin/products/new'
   id:
     | '__root__'
     | '/'
@@ -127,7 +163,10 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/designs/$slug'
     | '/designs/'
+    | '/_authenticated/admin/gallery'
     | '/_authenticated/admin/'
+    | '/_authenticated/admin/products/$id'
+    | '/_authenticated/admin/products/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -206,15 +245,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/gallery': {
+      id: '/_authenticated/admin/gallery'
+      path: '/admin/gallery'
+      fullPath: '/admin/gallery'
+      preLoaderRoute: typeof AuthenticatedAdminGalleryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/products/$id': {
+      id: '/_authenticated/admin/products/$id'
+      path: '/admin/products/$id'
+      fullPath: '/admin/products/$id'
+      preLoaderRoute: typeof AuthenticatedAdminProductsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/products/new': {
+      id: '/_authenticated/admin/products/new'
+      path: '/admin/products/new'
+      fullPath: '/admin/products/new'
+      preLoaderRoute: typeof AuthenticatedAdminProductsNewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminGalleryRoute: typeof AuthenticatedAdminGalleryRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminProductsIdRoute: typeof AuthenticatedAdminProductsIdRoute
+  AuthenticatedAdminProductsNewRoute: typeof AuthenticatedAdminProductsNewRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminGalleryRoute: AuthenticatedAdminGalleryRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedAdminProductsIdRoute: AuthenticatedAdminProductsIdRoute,
+  AuthenticatedAdminProductsNewRoute: AuthenticatedAdminProductsNewRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
