@@ -1,79 +1,90 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Phone, MapPin, Clock, Instagram, Share2 } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { Phone, MapPin, Instagram, MessageCircle } from "lucide-react";
 
 import heroVases from "@/assets/hero-vases.jpg";
 import workshop from "@/assets/workshop.jpg";
-import vase1 from "@/assets/vase-1.jpg";
-import vase2 from "@/assets/vase-2.jpg";
-import vase3 from "@/assets/vase-3.jpg";
-import vase4 from "@/assets/vase-4.jpg";
+import { ProductCard } from "@/components/product-card";
+import { publishedProductsQuery } from "@/lib/catalog";
+import { SITE, generalWhatsappLink } from "@/lib/site";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Amigos Wooden Vases — Wooden Décor & Furniture, Kigali" },
+      {
+        name: "description",
+        content:
+          "Amigos Wooden Vases makes wooden vases, tables, TV stands and custom wooden furniture in Gakinjiro ka Gisozi, Kigali. Call or WhatsApp +250 789 450 358.",
+      },
+      {
+        property: "og:title",
+        content: "Amigos Wooden Vases — Wooden Décor & Furniture, Kigali",
+      },
+      {
+        property: "og:description",
+        content:
+          "Wooden vases, tables, TV stands and custom wooden designs made in Kigali, Rwanda.",
+      },
+    ],
+  }),
   component: Index,
 });
 
-const PHONE = "+250789450358";
-const PHONE_DISPLAY = "+250 789 450 358";
-
-const pieces = [
-  {
-    img: vase1,
-    name: "Ebony Column",
-    note: "Hand-turned hardwood, natural oil finish",
-  },
-  { img: vase2, name: "Honey Vessel", note: "Teak, wide-belly silhouette" },
-  { img: vase3, name: "Ash Table Set", note: "Bowls and slim vase, pale ash" },
-  { img: vase4, name: "Tapered Olive", note: "Lacquered grain, floor height" },
-];
-
 function Index() {
+  const { data } = useQuery(publishedProductsQuery);
+  const featured = (data ?? []).slice(0, 4);
+
   return (
-    <main className="min-h-screen bg-background">
+    <main className="bg-background">
       {/* Hero */}
       <section className="relative isolate overflow-hidden">
         <img
           src={heroVases}
-          alt="Collection of handcrafted wooden vases by Amigos"
+          alt="Wooden vases arranged in a warm interior"
           width={1600}
           height={1200}
-          className="absolute inset-0 h-full w-full object-cover opacity-70"
+          className="absolute inset-0 h-full w-full object-cover opacity-60"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background" />
-        <div className="relative mx-auto flex min-h-[88vh] max-w-6xl flex-col justify-end px-6 pb-16 pt-24">
-          <p className="eyebrow">Gakinjiro · Kigali · Rwanda</p>
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/50 to-background" />
+        <div className="relative mx-auto flex min-h-[82vh] max-w-6xl flex-col justify-end px-6 pb-16 pt-20">
+          <p className="eyebrow">{SITE.location}</p>
           <h1 className="mt-5 max-w-3xl text-5xl leading-[0.95] tracking-tight sm:text-7xl md:text-8xl">
             Amigos
             <span className="block italic text-primary">Wooden Vases</span>
           </h1>
-          <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground">
-            We specialise in wooden vases and home decor — each piece turned,
-            sanded and finished by hand in our Kigali workshop.
+          <p className="mt-5 max-w-xl text-base italic text-muted-foreground">{SITE.tagline}</p>
+          <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
+            Wooden vases, tables, TV stands and custom wooden designs for homes and interior
+            spaces in Kigali.
           </p>
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <a
-              href={`tel:${PHONE}`}
+            <Link
+              to="/designs"
+              search={{}}
               className="inline-flex items-center gap-2 rounded-sm bg-primary px-6 py-3 text-sm font-medium tracking-wide text-primary-foreground transition-opacity hover:opacity-90"
             >
-              <Phone className="h-4 w-4" />
-              {PHONE_DISPLAY}
-            </a>
+              Explore Our Designs
+            </Link>
             <a
-              href="#collection"
+              href={generalWhatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-sm border border-border px-6 py-3 text-sm tracking-wide text-foreground transition-colors hover:bg-secondary"
             >
-              See the catalog
+              <MessageCircle className="h-4 w-4" /> WhatsApp us
             </a>
           </div>
         </div>
       </section>
 
-      {/* Marquee-ish info strip */}
+      {/* Info strip */}
       <section className="border-y border-border bg-card">
         <div className="mx-auto grid max-w-6xl grid-cols-1 divide-y divide-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           {[
-            { icon: Clock, label: "Open now", value: "Open 24 hours" },
-            { icon: MapPin, label: "Find us", value: "Gakinjiro, Kigali" },
-            { icon: Instagram, label: "Follow", value: "@amigos_wooden_vases" },
+            { icon: Phone, label: "Call us", value: SITE.phonePrimaryDisplay },
+            { icon: MapPin, label: "Find us", value: "Gakinjiro ka Gisozi, Kigali" },
+            { icon: Instagram, label: "Follow", value: SITE.instagramHandle },
           ].map(({ icon: Icon, label, value }) => (
             <div key={label} className="flex items-center gap-4 px-6 py-6">
               <Icon className="h-5 w-5 shrink-0 text-primary" />
@@ -86,45 +97,46 @@ function Index() {
         </div>
       </section>
 
-      {/* Collection */}
-      <section id="collection" className="mx-auto max-w-6xl px-6 py-24">
+      {/* Featured designs */}
+      <section className="mx-auto max-w-6xl px-6 py-24">
         <div className="flex items-end justify-between gap-6">
           <div>
-            <p className="eyebrow">The catalog</p>
+            <p className="eyebrow">Our designs</p>
             <h2 className="mt-4 text-4xl tracking-tight sm:text-5xl">
               Pieces in <span className="italic text-primary">grain</span>
             </h2>
           </div>
-          <a
-            href={`tel:${PHONE}`}
+          <Link
+            to="/designs"
+            search={{}}
             className="hidden shrink-0 text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline sm:block"
           >
-            Ask for a price
-          </a>
+            View all designs
+          </Link>
         </div>
 
-        <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-4">
-          {pieces.map((p) => (
-            <figure key={p.name} className="group">
-              <div className="overflow-hidden bg-card">
-                <img
-                  src={p.img}
-                  alt={p.name}
-                  width={900}
-                  height={1200}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                />
-              </div>
-              <figcaption className="mt-4">
-                <p className="font-display text-lg">{p.name}</p>
-                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                  {p.note}
-                </p>
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+        {featured.length === 0 ? (
+          <div className="mt-14 border border-dashed border-border px-6 py-16 text-center">
+            <p className="font-display text-2xl">Our catalog is being prepared</p>
+            <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground">
+              Message us on WhatsApp and we will share the designs available right now.
+            </p>
+            <a
+              href={generalWhatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex items-center rounded-sm bg-primary px-6 py-3 text-sm font-medium text-primary-foreground"
+            >
+              Ask on WhatsApp
+            </a>
+          </div>
+        ) : (
+          <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-4">
+            {featured.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Craft */}
@@ -132,7 +144,7 @@ function Index() {
         <div className="mx-auto grid max-w-6xl gap-12 px-6 py-24 md:grid-cols-2 md:items-center">
           <img
             src={workshop}
-            alt="Artisan turning a wooden vase on a lathe"
+            alt="Wood being shaped in a workshop"
             width={1200}
             height={1408}
             loading="lazy"
@@ -140,22 +152,21 @@ function Index() {
             style={{ boxShadow: "var(--shadow-deep)" }}
           />
           <div>
-            <p className="eyebrow">The workshop</p>
+            <p className="eyebrow">What we make</p>
             <h2 className="mt-4 text-4xl leading-tight tracking-tight sm:text-5xl">
-              Turned by hand,
-              <span className="block italic text-primary">one at a time</span>
+              Wood for the
+              <span className="block italic text-primary">whole home</span>
             </h2>
             <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-              Every vase starts as a solid block of local hardwood. It is
-              mounted, turned, shaped and sanded until the grain shows what it
-              wants to be — then oiled or lacquered by hand.
+              From vases and corner vases to TV stands, dining tables and other wooden furniture —
+              we also take on custom designs made to your space.
             </p>
             <dl className="mt-10 grid grid-cols-2 gap-y-8">
               {[
-                ["Custom sizes", "Made to your room"],
-                ["Bulk orders", "Hotels & interiors"],
-                ["Home decor", "Bowls, lamps, sets"],
-                ["Delivery", "Across Kigali"],
+                ["Wooden vases", "Table and corner vases"],
+                ["Tables", "Dining, side and console"],
+                ["TV stands", "Living room pieces"],
+                ["Custom designs", "Made to your space"],
               ].map(([t, d]) => (
                 <div key={t}>
                   <dt className="font-display text-lg">{t}</dt>
@@ -163,49 +174,46 @@ function Index() {
                 </div>
               ))}
             </dl>
+            <Link
+              to="/about"
+              className="mt-10 inline-flex items-center rounded-sm border border-border px-6 py-3 text-sm transition-colors hover:bg-secondary"
+            >
+              About Amigos
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Contact */}
-      <section id="visit" className="mx-auto max-w-6xl px-6 py-24 text-center">
+      <section className="mx-auto max-w-6xl px-6 py-24 text-center">
         <p className="eyebrow">Visit or call</p>
         <h2 className="mx-auto mt-5 max-w-2xl text-4xl leading-tight tracking-tight sm:text-6xl">
-          Gakinjiro, Kigali —
-          <span className="italic text-primary"> open 24 hours</span>
+          Gakinjiro ka Gisozi —
+          <span className="italic text-primary"> Kigali</span>
         </h2>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
           <a
-            href={`tel:${PHONE}`}
+            href={generalWhatsappLink}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-sm bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
           >
-            <Phone className="h-4 w-4" /> Call {PHONE_DISPLAY}
+            <MessageCircle className="h-4 w-4" /> WhatsApp {SITE.phonePrimaryDisplay}
           </a>
           <a
-            href="https://www.instagram.com/amigos_wooden_vases"
-            target="_blank"
-            rel="noopener noreferrer"
+            href={`tel:${SITE.phoneSecondary}`}
             className="inline-flex items-center gap-2 rounded-sm border border-border px-6 py-3 text-sm transition-colors hover:bg-secondary"
           >
-            <Instagram className="h-4 w-4" /> Instagram
+            <Phone className="h-4 w-4" /> {SITE.phoneSecondaryDisplay}
           </a>
-          <a
-            href="https://maps.google.com/?q=Gakinjiro,+Kigali,+Rwanda"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to="/contact"
             className="inline-flex items-center gap-2 rounded-sm border border-border px-6 py-3 text-sm transition-colors hover:bg-secondary"
           >
-            <Share2 className="h-4 w-4" /> Directions
-          </a>
+            <MapPin className="h-4 w-4" /> Directions
+          </Link>
         </div>
       </section>
-
-      <footer className="border-t border-border px-6 py-10">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <span>Amigos Wooden Vases · Arts & entertainment</span>
-          <span>Gakinjiro, Kigali, Rwanda</span>
-        </div>
-      </footer>
     </main>
   );
 }
