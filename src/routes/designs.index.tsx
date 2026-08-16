@@ -5,7 +5,7 @@ import { ProductCard } from "@/components/product-card";
 import { categoriesQuery, publishedProductsQuery } from "@/lib/catalog";
 import { generalWhatsappLink } from "@/lib/site";
 
-type Search = { category?: string };
+type Search = { category?: string | undefined };
 
 export const Route = createFileRoute("/designs/")({
   validateSearch: (search: Record<string, unknown>): Search => ({
